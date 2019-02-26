@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mydao.kkjk.dao.CodeVideoCameraMapper" >
+  <resultMap id="BaseResultMap" type="com.mydao.kkjk.entity.CodeVideoCamera" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="DVR_NAME" property="dvrName" jdbcType="VARCHAR" />
+    <result column="DVR_DESC" property="dvrDesc" jdbcType="VARCHAR" />
+    <result column="DVR_IP" property="dvrIp" jdbcType="VARCHAR" />
+    <result column="DVR_PORT" property="dvrPort" jdbcType="VARCHAR" />
+    <result column="DW_SIZE" property="dwSize" jdbcType="VARCHAR" />
+    <result column="S_PASS_WORD" property="sPassWord" jdbcType="VARCHAR" />
+    <result column="BY_RES" property="byRes" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DVR_NAME, DVR_DESC, DVR_IP, DVR_PORT, DW_SIZE, S_PASS_WORD, BY_RES, STATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CODE_VIDEO_CAMERA
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CODE_VIDEO_CAMERA
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" >
+    insert into CODE_VIDEO_CAMERA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="dvrName != null" >
+        DVR_NAME,
+      </if>
+      <if test="dvrDesc != null" >
+        DVR_DESC,
+      </if>
+      <if test="dvrIp != null" >
+        DVR_IP,
+      </if>
+      <if test="dvrPort != null" >
+        DVR_PORT,
+      </if>
+      <if test="dwSize != null" >
+        DW_SIZE,
+      </if>
+      <if test="sPassWord != null" >
+        S_PASS_WORD,
+      </if>
+      <if test="byRes != null" >
+        BY_RES,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dvrName != null" >
+        #{dvrName,jdbcType=VARCHAR},
+      </if>
+      <if test="dvrDesc != null" >
+        #{dvrDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dvrIp != null" >
+        #{dvrIp,jdbcType=VARCHAR},
+      </if>
+      <if test="dvrPort != null" >
+        #{dvrPort,jdbcType=VARCHAR},
+      </if>
+      <if test="dwSize != null" >
+        #{dwSize,jdbcType=VARCHAR},
+      </if>
+      <if test="sPassWord != null" >
+        #{sPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="byRes != null" >
+        #{byRes,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" >
+    update CODE_VIDEO_CAMERA
+    <set >
+      <if test="dvrName != null" >
+        DVR_NAME = #{dvrName,jdbcType=VARCHAR},
+      </if>
+      <if test="dvrDesc != null" >
+        DVR_DESC = #{dvrDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="dvrIp != null" >
+        DVR_IP = #{dvrIp,jdbcType=VARCHAR},
+      </if>
+      <if test="dvrPort != null" >
+        DVR_PORT = #{dvrPort,jdbcType=VARCHAR},
+      </if>
+      <if test="dwSize != null" >
+        DW_SIZE = #{dwSize,jdbcType=VARCHAR},
+      </if>
+      <if test="sPassWord != null" >
+        S_PASS_WORD = #{sPassWord,jdbcType=VARCHAR},
+      </if>
+      <if test="byRes != null" >
+        BY_RES = #{byRes,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectCameraIP" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" resultMap="BaseResultMap">
+    select * from CODE_VIDEO_CAMERA where BY_RES = #{byRes} and state = #{state}
+  </select>
+
+  <select id="selectList" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" resultMap="BaseResultMap">
+    select * from (
+      select t.*,rownum as rn from CODE_VIDEO_CAMERA  t where 1 = 1
+      <if test="byRes != null ">
+        and BY_RES = #{byRes}
+      </if>
+      <if test="dvrName != null ">
+        and DVR_NAME = #{dvrName}
+      </if>
+    ) x where x.rn &gt;= #{beginRow} and x.rn &lt; #{endRow}
+  </select>
+
+  <select id="count" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" resultType="java.lang.Integer">
+    select count(1) from CODE_VIDEO_CAMERA  t where 1 = 1
+    <if test="byRes != null ">
+      and BY_RES = #{byRes}
+    </if>
+    <if test="dvrName != null ">
+      and DVR_NAME = #{dvrName}
+    </if>
+  </select>
+
+  <select id="selectByIp" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" resultType="java.lang.String">
+    select DVR_DESC from CODE_VIDEO_CAMERA where BY_RES = #{byRes} and DVR_IP = #{dvrIp}
+  </select>
+</mapper>

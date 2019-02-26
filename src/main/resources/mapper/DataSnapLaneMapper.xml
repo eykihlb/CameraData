@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mydao.kkjk.dao.DataSnapLaneMapper" >
+  <resultMap id="BaseResultMap" type="com.mydao.kkjk.entity.DataSnapLane" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CAMERA_IP" property="cameraIp" jdbcType="VARCHAR" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="PLATE_NO" property="plateNo" jdbcType="VARCHAR" />
+    <result column="PLATE_COLOR_CODE" property="plateColorCode" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="NET_SITE_NO" property="netSiteNo" jdbcType="VARCHAR" />
+    <result column="dvrName" property="dvrName" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CAMERA_IP, PIC_URL, CREATE_TIME, PLATE_NO, PLATE_COLOR_CODE, STATE, NET_SITE_NO
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from DATA_SNAP_LANE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from DATA_SNAP_LANE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.mydao.kkjk.entity.DataSnapLane" >
+    insert into DATA_SNAP_LANE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="cameraIp != null" >
+        CAMERA_IP,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="plateNo != null" >
+        PLATE_NO,
+      </if>
+      <if test="plateColorCode != null" >
+        PLATE_COLOR_CODE,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="netSiteNo != null" >
+        NET_SITE_NO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="cameraIp != null" >
+        #{cameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNo != null" >
+        #{plateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="plateColorCode != null" >
+        #{plateColorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="netSiteNo != null" >
+        #{netSiteNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mydao.kkjk.entity.DataSnapLane" >
+    update DATA_SNAP_LANE
+    <set >
+      <if test="cameraIp != null" >
+        CAMERA_IP = #{cameraIp,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="plateNo != null" >
+        PLATE_NO = #{plateNo,jdbcType=VARCHAR},
+      </if>
+      <if test="plateColorCode != null" >
+        PLATE_COLOR_CODE = #{plateColorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="netSiteNo != null" >
+        NET_SITE_NO = #{netSiteNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="selectByPlateNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select t1.*,t3.DVR_NAME dvrName
+    from DATA_SNAP_LANE t1,CODE_VIDEO_CAMERA t3
+    where
+    t1.camera_ip = t3.dvr_ip and
+    t1.CREATE_TIME = (
+    select max(t2.CREATE_TIME) from data_snap_lane t2 where t2.PLATE_NO = #{plateNo} and t2.state = '0'
+    )
+  </select>
+
+</mapper>

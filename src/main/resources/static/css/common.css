@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+html, body{
+  height: 100%;
+}
+.div-flex{
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+.div-flex .flex-bd{
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+/* padding和border包含在宽高中 */
+.b-box{
+  box-sizing: border-box;
+}
+.fr{
+  float: right;
+}
+.tc{
+  text-align: center;
+}
+.ivu-btn-ghost {
+  color: #657180;
+}
+.list-search-wrap span{
+  padding-left: 10px;
+  font-weight: bold;
+}
+.search-btn{
+  width: 100px;
+  line-height: 40px;
+  text-align: center;
+  background: #3385ff;
+  font-size: 16px;
+  color: #fff;
+}
+.search-btn:hover{
+  cursor: pointer;
+  box-shadow: #c5c5c5 1px 1px 5px;
+}
+
+#search-list{
+  height: 100%;
+  padding: 20px;
+}
+.ivu-form{
+  padding: 0 50px;
+}
+.ivu-form-item{
+  margin-bottom: 20px;
+}
+.comBtn{
+  display: inline-block;
+  padding: 6px;
+  border:solid 1px #2d78f4;
+  background: #3385ff;
+  color: #fff;
+  cursor: pointer;
+}
+.banBtn{
+  border:solid 1px #f54545;
+  background: #ff8547;
+}
+
+/* .ivu-input{
+  width: 180px;
+} */
+.img-wrap{
+  padding-left: 15px;
+}
+.selectImg{
+  cursor: pointer;
+}
+/* .ivu-modal-close .ivu-icon-ios-close{
+  top: 0;
+  color: #fff;
+  font-weight: bold;
+  background: #3385ff;
+  border-radius: 50%;
+} */
+

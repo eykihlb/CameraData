@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>摄像机列表</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/iview.css">
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+  <div id="search-list">
+    <div class="list-search-wrap clearfix">
+      <span>摄像机列表</span>
+      <i-button type="info" @click="dvrAdd" class="fr">添加摄像机</i-button>
+    </div>
+    <i-table :height="tableHeight" border stripe :columns="column" :data="tableData.tableList" 
+      @on-row-click="rowClick"></i-table>
+    <Page 
+      :total="tableData.totalCount" :current="tableData.pageIndex" :page-size="tableData.pageSize" show-sizer size="small" 
+      style="margin: 10px 0;text-align: right" @on-change="changePage"
+      @on-page-size-change="changeSize"
+    ></Page>
+    <Modal v-model="isAdd" footer-hide :mask-closable="false" width="600" title="摄像机添加" :styles="{top: '30px'}">
+      <i-form ref="add" :model="addItem" :label-width="145" :rules="addValidate">
+        <Form-item label="摄像机名称" prop="dvrName">
+          <i-input v-model="addItem.dvrName"></i-input>
+        </Form-item>
+        <Form-item label="摄像机IP" prop="dvrIp">
+          <i-input v-model="addItem.dvrIp"></i-input>
+        </Form-item>
+        <Form-item label="摄像机所在站路网站号" prop="byRes">
+          <i-input v-model="addItem.byRes"></i-input>
+        </Form-item>
+        <Form-item label="摄像机描述" prop="dvrDesc">
+          <Radio-group v-model="addItem.dvrDesc">
+            <Radio label="1">匝道摄像机</Radio>
+            <Radio label="2">车道摄像机</Radio>
+          </Radio-group>
+        </Form-item>
+        <Form-item label="摄像机状态" prop="state">
+          <Radio-group v-model="addItem.state">
+            <Radio label="0">禁用</Radio>
+            <Radio label="1">启用</Radio>
+          </Radio-group>
+        </Form-item>
+        <div class="tc">
+          <i-button type="primary" @click="okAdd">确定</i-button>
+          <i-button type="ghost" @click="addCancel">取消</i-button>
+        </div>
+      </i-form>
+    </Modal>
+  </div>
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/vue.js"></script>
+  <script src="../js/iview.js"></script>
+  <script src="../js/common.js"></script>
+  <script>
+    $(function () {
+      new Vue({
+        el: '#search-list',
+        data() {
+          var validateIp = function(rule, value, callback){//验证IP
+            if(!/(2(5[0-5]{1}|[0-4]\d{1})|[0-1]?\d{1,2})(\.(2(5[0-5]{1}|[0-4]\d{1})|[0-1]?\d{1,2})){3}/g.test(value)){
+                return callback(new Error("请填写正确IP地址"));
+            }else{
+                callback();
+            }
+          };
+          var numFour = function(rule, value, callback){//验证路网站号格式
+            var thisVal = Number(value);
+            if(thisVal == value){
+              if(!Number.isInteger(thisVal) || value.length != 4){
+                  return callback(new Error("格式为4位数字"));
+              }else{
+                  callback();
+              }
+            }else{
+              return callback(new Error("请填写数字"));
+            }
+          };
+          return {
+            isAdd: false,//添加摄像机
+            tableHeight: document.body.clientHeight - 135,
+            tableData: {
+              tableList: [
+                {
+                  dvrName: '摄像机1',
+                  dvrIp: '192.168.0.200',
+                  byRes: '1207',
+                  state: 0
+                },
+                {
+                  dvrName: '摄像机1',
+                  dvrIp: '192.168.0.200',
+                  byRes: '1207',
+                  state: 1
+                }
+              ],
+              totalCount: 0,//总条数
+              currPage: 1,//当前页 
+              pageSize: 10,//每页条数
+            },
+            addItem: {
+              dvrName: '',
+              dvrDesc: '',
+              dvrIp: '',
+              byRes: '',
+              state: ''
+            },
+            addValidate: {
+              dvrName: [
+                {
+                  required: true,
+                  message: '摄像机名称不能为空'
+                }
+              ],
+              dvrDesc: [
+                {
+                  required: true,
+                  message: '请选择摄像机描述'
+                }
+              ],
+              dvrIp: [
+                {
+                  required: true,
+                  message: '请填写摄像机IP'
+                },
+                {
+                  validator: validateIp
+                }
+              ],
+              byRes: [
+                {
+                  required: true,
+                  message: '请填写路网站号'
+                },
+                {
+                  validator: numFour
+                }
+              ],
+              state: [
+                {
+                  required: true,
+                  message: '请选择摄像机状态'
+                }
+              ]
+            },
+            column: [
+              {
+                title: '摄像机名称',
+                key: 'dvrName',
+                align: 'center'
+              },{
+                title: '设备IP地址',
+                key: 'dvrIp',
+                align: 'center'
+              },{
+                title: '路网站号',
+                key: 'byRes',
+                align: 'center'
+              },{
+                title: '状态',
+                key: 'state',
+                align: 'center',
+                render: (h, params) => {
+                    if(params.row.state == 1){
+                        return h('div', '已启用')
+                    }else if(params.row.state == 0){
+                        return h('div', '已禁用')
+                    }else{
+                        return h('div', '未知')
+                    }
+                }
+              },{
+                title: '操作',
+                key: 'state',
+                align: 'center',
+                render: (h, params) => {
+                  let row = params.row;
+                  if(row.state == 0){
+                    return h('div', {
+                      class: ['comBtn'],
+                      attrs: {
+                        title: '启用'
+                      },
+                      on: {
+                        click: () => {
+                            this.$Modal.confirm({
+                                title: '提示',
+                                closable: true,
+                                content: '确认要启用该摄像机吗？',
+                                width: 360,
+                                onOk: () => {
+                                    this.changeState(row.id, 1);
+                                },
+                                onCancel: () => {
+                                    // 什么也不做
+                                }
+                            });
+                        }
+                      }
+                    }, '启用')
+                  }else if(row.state == 1){
+                    return h('div', {
+                      class: ['comBtn', 'banBtn'],
+                      attrs: {
+                        title: '禁用'
+                      },
+                      on: {
+                        click: () => {
+                            this.$Modal.confirm({
+                                title: '提示',
+                                closable: true,
+                                content: '确认要禁用该摄像机吗？',
+                                width: 360,
+                                onOk: () => {
+                                    this.changeState(row.id, 0);
+                                },
+                                onCancel: () => {
+                                    // 什么也不做
+                                }
+                            });
+                        }
+                      }
+                    }, '禁用')
+                  }
+                }
+              }
+            ]
+          }
+          
+        },
+        methods: {
+          dvrAdd() {
+            this.$refs['add'].resetFields();
+            this.isAdd = true;
+          },
+          okAdd() {
+            this.$refs['add'].validate((valid) => {
+              if(valid){
+                  var _self = this;
+                  $.ajax({
+                      url: window.localStorage.getItem('localUrl') +'/insertCamera',
+                      type: 'post',
+                      async: false,
+                      contentType: 'application/json;charset=UTF-8',
+                      data: JSON.stringify(this.addItem),
+                      success: function(res){
+                          var requireData = JSON.parse(res);
+                          if(requireData.status == '1'){
+                              _self.$Message.success(requireData.msg);
+                              _self.$refs['add'].resetFields();
+                              _self.isAdd = false;
+                              _self.getList();
+                          }else{
+                              _self.$Message.warning(requireData.msg);
+                          }
+                      }
+                  })
+                /* 在这里写添加接口，并再在添加成功之后执行下面两行
+                 */
+              }
+            })
+          },
+          changeState(id, state) {//改变设备状态，接口请写在此方法中最后执行一下获取列表
+              var _self = this;
+              var dataParam =  JSON.stringify({id: id, state: state});
+ console.log(dataParam);
+
+              $.ajax({
+                  url: window.localStorage.getItem('localUrl') +'/updateCameraState',
+                  type: 'post',
+                  async: false,
+                  contentType: 'application/json;charset=UTF-8',
+                  data: JSON.stringify({id: id, state: state}),
+                  success: function(res){
+                      var requireData = JSON.parse(res);
+                      if(requireData.status == '1'){
+                          _self.$Message.success(requireData.msg);
+                          _self.getList();
+                      }else{
+                          _self.$Message.warning(requireData.msg);
+                      }
+                  }
+              })
+          },
+          addCancel() {
+            this.isAdd = false;
+          },
+          changePage (page) {//改变页码
+            this.tableData.currPage = page;
+            this.getList();
+          },
+          changeSize (pageSize) {//改变每页显示条数
+            this.tableData.pageSize = pageSize;
+            this.getList();
+          },
+          getList() {
+              var _self = this;
+            $.ajax({
+              url: window.localStorage.getItem('localUrl') +'/getList',
+              type: 'post',
+              async: false,
+              contentType: 'application/json;charset=UTF-8',
+              data: JSON.stringify({pageIndex: this.tableData.currPage,//当前页
+                  pageSize: this.tableData.pageSize}),
+              success: function(res){
+                var requireData = JSON.parse(res);
+                if(requireData.status == '1'){
+                    _self.tableData.tableList = requireData.list;
+                    _self.tableData.totalCount = Number(requireData.count);
+                }else{
+                    _self.$Message.wraning(res.msg);
+                }
+              }
+            })
+          },
+          rowClick(data, index) {
+          }
+        },
+        mounted: function(){
+          this.getList();
+        }
+      })
+    })
+  </script>
+</body>

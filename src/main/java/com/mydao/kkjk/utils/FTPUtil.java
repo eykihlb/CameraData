@@ -66,7 +66,7 @@ public class FTPUtil {
                 File localFile = new File(fc.getLocalPath() + "/" + file.getName());
                 os = new FileOutputStream(localFile);
                 if (ftpClient.retrieveFile(file.getName(), os)){//下载文件
-                    ftpClient.deleteFile(fc.getErrorFilePath()+file.getName());//下载成功后删除文件
+                    ftpClient.deleteFile(file.getName());//下载成功后删除文件
                 }
                 os.flush();
                 os.close();

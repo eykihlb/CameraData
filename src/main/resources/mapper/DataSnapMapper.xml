@@ -10,12 +10,13 @@
     <result column="PLATE_COLOR_CODE" property="plateColorCode" jdbcType="VARCHAR" />
     <result column="STATE" property="state" jdbcType="VARCHAR" />
     <result column="NET_SITE_NO" property="netSiteNo" jdbcType="VARCHAR" />
+    <result column="CAR_ID" property="carId" jdbcType="VARCHAR" />
     <result column="dvrName" property="dvrName" />
     <result column="netSiteNo" property="netSiteNo" />
     <result column="fullNetSiteNo" property="fullNetSiteNo" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CAMERA_IP, PIC_URL, CREATE_TIME, PLATE_NO, PLATE_COLOR_CODE, STATE,NET_SITE_NO
+    ID, CAMERA_IP, PIC_URL, CREATE_TIME, PLATE_NO, PLATE_COLOR_CODE, STATE,NET_SITE_NO,CAR_ID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -54,6 +55,9 @@
       <if test="netSiteNo != null" >
         NET_SITE_NO,
       </if>
+      <if test="carId != null" >
+        CAR_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -79,6 +83,9 @@
       </if>
       <if test="netSiteNo != null" >
         #{netSiteNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -107,6 +114,9 @@
       <if test="netSiteNo != null" >
         NET_SITE_NO = #{netSiteNo,jdbcType=VARCHAR},
       </if>
+      <if test="carId != null" >
+        CAR_ID = #{carId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -119,5 +129,9 @@
     t1.CREATE_TIME = (
       select max(t2.CREATE_TIME) from data_snap t2 where t2.PLATE_NO = #{plateNo} and t2.state = '0'
     )
+  </select>
+
+  <select id="selectLastData" parameterType="java.lang.String" resultType="java.lang.String">
+    select max(CAR_ID) from DATA_SNAP where NET_SITE_NO = #{netSiteNo}
   </select>
 </mapper>

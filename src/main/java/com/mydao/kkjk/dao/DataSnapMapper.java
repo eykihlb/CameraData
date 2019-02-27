@@ -20,4 +20,6 @@ public interface DataSnapMapper {
     int updateByPrimaryKey(DataSnap record);
 
     DataSnap selectByPlateNo(String plateNo);
+
+    String selectLastData(String netSiteNo);
 }

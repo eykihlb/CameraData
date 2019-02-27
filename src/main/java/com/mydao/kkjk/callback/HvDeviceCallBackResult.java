@@ -5,20 +5,13 @@ import com.mydao.kkjk.config.FTPConfig;
 import com.mydao.kkjk.entity.DataSnap;
 import com.mydao.kkjk.sdk.HvApiCallBack;
 import com.mydao.kkjk.sdk.HvDeviceDataType;
-import com.mydao.kkjk.sdk.HvDeviceSDK;
 import com.mydao.kkjk.utils.FTPUtil;
 import com.mydao.kkjk.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
 import java.io.*;
 import java.util.Date;
-import java.util.Properties;
-import java.util.UUID;
 import java.text.SimpleDateFormat;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
 public class HvDeviceCallBackResult{
 	/**结果回调函数*/
@@ -51,10 +44,10 @@ public class HvDeviceCallBackResult{
 				}
 
 				//不是实时结果数据就丢弃
-				if(dwResultType != HvDeviceDataType.RECORD_TYPE_NORMAL) {
+				/*if(dwResultType != HvDeviceDataType.RECORD_TYPE_NORMAL) {
 					System.out.println("不是实时结果");
 					return 0;
-				}
+				}*/
 
 				Date current_time = new Date();
 				//SimpleDateFormat sdf_current = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -131,6 +124,7 @@ public class HvDeviceCallBackResult{
 					DataSnap ds = new DataSnap();
 					ds.setCameraIp(pUserData.ip+"");
 					ds.setPicUrl(pUserData.lastBigPicPath);
+					ds.setCarId(pUserData.carID+"");
 					ds.setPlateColorCode(pUserData.plateNoColor);
 					ds.setPlateNo(pUserData.plateNo);
 					String res = om.writeValueAsString(ds);
@@ -153,7 +147,7 @@ public class HvDeviceCallBackResult{
 				return 0;
 			}catch (Exception e){
 				System.out.println("回调异常！---"+e.getMessage());
-				return 0;
+				return -1;
 			}
 		}
 	}

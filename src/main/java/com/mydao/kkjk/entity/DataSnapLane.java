@@ -10,7 +10,7 @@ public class DataSnapLane {
     private String createTime;
 
     private String plateNo;
-
+    private String carId;
     private String plateColorCode;
 
     private String state;
@@ -21,6 +21,14 @@ public class DataSnapLane {
 
     public String getDvrName() {
         return dvrName;
+    }
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
     }
 
     public void setDvrName(String dvrName) {

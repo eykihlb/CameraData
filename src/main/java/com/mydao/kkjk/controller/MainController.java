@@ -58,21 +58,16 @@ public class MainController {
         log.info(plateNo);
         DSVO dsvo = new DSVO();
         if (ds!=null){
-            dsvo.setDvrName(new String(ds.getDvrName().getBytes("GBK"), "GB2312"));
+            dsvo.setDvrName(ds.getDvrName());
             dsvo.setCreateTime(ds.getCreateTime());
             dsvo.setId(ds.getId());
             dsvo.setNetSiteNo(ds.getNetSiteNo());
             return om.writeValueAsString(dsvo);
         }else{
-            return om.writeValueAsString("NoData！");
+            return om.writeValueAsString("NoData!");
         }
     }
 
-    @PostMapping("/test")
-    public String test(@RequestParam String param){
-        log.info(param);
-        return param;
-    }
     /**
      * 更新过车记录
      * @param id
@@ -146,96 +141,5 @@ public class MainController {
         resultMap.put("msg","success");
         return om.writeValueAsString(resultMap);
     }
-
-
-    public static String gb2312ToUtf8(String str) {
-
-        String urlEncode ="";
-
-        try {
-
-            urlEncode = URLEncoder.encode (str, "UTF-8" );
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
-
-        return urlEncode;
-
-    }
-
-    public static String utf8Togb2312(String str){
-
-        StringBuffer sb = new StringBuffer();
-
-        for ( int i=0; i<str.length(); i++) {
-
-            char c = str.charAt(i);
-
-            switch (c) {
-
-               case 'c':
-
-                sb.append(" " );
-
-                break ;
-
-               case '%':
-
-                try {
-
-                    sb.append(( char )Integer.parseInt (
-
-                            str.substring(i+1,i+3),16));
-
-                }
-
-                catch (NumberFormatException e) {
-
-                    throw new IllegalArgumentException();
-
-                }
-
-                i += 2;
-
-                break ;
-
-                default :
-
-                    sb.append(c);
-
-                    break ;
-
-            }
-
-        }
-
-        String result = sb.toString();
-
-        String res= null ;
-
-        try {
-
-            byte [] inputBytes = result.getBytes( "8859_1" );
-
-            res= new String(inputBytes, "UTF-8");
-
-        }
-
-        catch (Exception e){}
-
-        return res;
-
-    }
-
-    public static void main(String[] args) throws Exception{
-        String gStr= new String("大萨达".getBytes("GBK"), "GB2312");
-        String gStr1= new String("大萨达".getBytes("GB2312"), "GBK");
-        System.out.println(gStr);
-        System.out.println(gStr1);
-    }
-
 
 }

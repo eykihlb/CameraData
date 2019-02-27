@@ -377,7 +377,7 @@ public class frmMain extends JFrame {
 					JOptionPane.showMessageDialog(null, "打开一体机设备失败!", "提示", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if(!_camera_device.StartResult()){
+				if(!_camera_device.StartResult(null,null)){
 					JOptionPane.showMessageDialog(null, "设置一体机设备结果回调失败!", "提示", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -412,7 +412,7 @@ public class frmMain extends JFrame {
 					JOptionPane.showMessageDialog(null, "打开车型设备失败!", "提示", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if(!_vfr_device.StartResult()){
+				if(!_vfr_device.StartResult(null,null)){
 					JOptionPane.showMessageDialog(null, "设置车型设备结果回调失败!", "提示", JOptionPane.ERROR_MESSAGE);
 					return;
 				}

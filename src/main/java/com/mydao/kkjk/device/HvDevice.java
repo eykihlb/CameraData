@@ -1,12 +1,21 @@
 package com.mydao.kkjk.device;
 
 import com.mydao.kkjk.callback.HvDeviceCallBackResult;
+import com.mydao.kkjk.config.FTPConfig;
+import com.mydao.kkjk.dao.DataSnapMapper;
 import com.mydao.kkjk.sdk.HvDeviceDataType;
 import com.mydao.kkjk.sdk.HvDeviceSDK;
 import com.mydao.kkjk.utils.Utils;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
+
+@Component
 public class HvDevice {
 	/**设备IP*/
 	private String _ip = "";
@@ -55,13 +64,22 @@ public class HvDevice {
 	}
 
 	/**开始接收结果*/
-	public boolean StartResult() {
+	public boolean StartResult(FTPConfig ftpConfig,DataSnapMapper dataSnapMapper) {
 		if(_handle == null) {
 			return false;
 		}
 		_result.ip = _ip;
 		_result.type = _type;
-		if(0 == HvDeviceSDK._sdk1.HVAPI_StartRecvResult(_handle, _result_callback, _result, 0, 0L, 0L, 0, HvDeviceDataType.RESULT_RECV_FLAG_REALTIME))
+		ZoneOffset zoneOffset = ZoneOffset.ofHours(8);
+		LocalDateTime localDateTime = LocalDateTime.of(2019,2,26,0,0);
+		String carId = "0";
+		if (ftpConfig!=null&&dataSnapMapper!=null){
+			 carId = dataSnapMapper.selectLastData(ftpConfig.getNetNo());
+			 if (carId == null){
+			 	carId = "0";
+			 }
+		}
+		if(0 == HvDeviceSDK._sdk1.HVAPI_StartRecvResult(_handle, _result_callback, _result, 0, localDateTime.toEpochSecond(zoneOffset), 0L, Integer.parseInt(carId), HvDeviceDataType.RESULT_RECV_FLAG_HISTORY))
 		{
 			System.out.println("开始接收结果！设备IP：" + _ip);
 			return true;

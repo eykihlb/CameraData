@@ -12,12 +12,20 @@ public class DataSnap {
     private String plateNo;
 
     private String plateColorCode;
-
+    private String carId;
     private String state;
     private String netSiteNo;
 
     private String dvrName;
     private String fullNetSiteNo;
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
 
     public String getNetSiteNo() {
         return netSiteNo;

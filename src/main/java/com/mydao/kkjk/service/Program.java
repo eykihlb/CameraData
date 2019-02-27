@@ -67,43 +67,43 @@ public class Program {
 						switch (i){
 							case 0:
 								hd.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd.StartResult();
+								hd.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 1:
 								hd.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd.StartResult();
+								hd.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 2:
 								hd1.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd1.StartResult();
+								hd1.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 3:
 								hd1.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd1.StartResult();
+								hd1.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 4:
 								hd2.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd2.StartResult();
+								hd2.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 5:
 								hd2.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd2.StartResult();
+								hd2.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 6:
 								hd3.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd3.StartResult();
+								hd3.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 7:
 								hd3.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd3.StartResult();
+								hd3.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 8:
 								hd4.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd4.StartResult();
+								hd4.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							case 9:
 								hd4.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd4.StartResult();
+								hd4.StartResult(ftpConfig,dataSnapMapper);
 								break;
 							default:
 								break;
@@ -204,6 +204,7 @@ public class Program {
 							}
 						}else{//匝道
 							dsl.setState("0");
+							ds.setCarId(map.get("carId").toString());
 							dsl.setPlateNo(map.get("plateNo").toString());
 							dsl.setPlateColorCode(map.get("plateColorCode").toString());
 							dsl.setPicUrl(map.get("picUrl").toString());

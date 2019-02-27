@@ -79,7 +79,7 @@ public class HvDevice {
 			 	carId = "0";
 			 }
 		}
-		if(0 == HvDeviceSDK._sdk1.HVAPI_StartRecvResult(_handle, _result_callback, _result, 0, localDateTime.toEpochSecond(zoneOffset), 0L, Integer.parseInt(carId), HvDeviceDataType.RESULT_RECV_FLAG_HISTORY))
+		if(0 == HvDeviceSDK._sdk1.HVAPI_StartRecvResult(_handle, _result_callback, _result, 0, localDateTime.toEpochSecond(zoneOffset), 0L, Integer.parseInt(carId)+1, HvDeviceDataType.RESULT_RECV_FLAG_HISTORY))
 		{
 			System.out.println("开始接收结果！设备IP：" + _ip);
 			return true;

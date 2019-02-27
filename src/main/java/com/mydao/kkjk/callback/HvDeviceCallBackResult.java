@@ -54,7 +54,7 @@ public class HvDeviceCallBackResult{
 
 				HvDeviceDataType.HvResult result = pUserData;
 				//result.time = sdf_current.format(current_time);
-				//result.carID = dwCarID;
+				result.carID = dwCarID;
 
 				if(pcPlateNo.indexOf("无车牌") > -1){
 					result.plateNo = pcPlateNo;
@@ -124,7 +124,7 @@ public class HvDeviceCallBackResult{
 					DataSnap ds = new DataSnap();
 					ds.setCameraIp(pUserData.ip+"");
 					ds.setPicUrl(pUserData.lastBigPicPath);
-					ds.setCarId(pUserData.carID+"");
+					ds.setCarId(result.carID+"");
 					ds.setPlateColorCode(pUserData.plateNoColor);
 					ds.setPlateNo(pUserData.plateNo);
 					String res = om.writeValueAsString(ds);

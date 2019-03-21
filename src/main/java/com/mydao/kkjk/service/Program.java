@@ -188,8 +188,9 @@ public class Program {
 						c.setDvrIp(map.get("cameraIp").toString());
 						c.setByRes(ftpConfig.getNetNo());
 						String a = codeVideoCameraMapper.selectByIp(c);
-						if ("1".equals(a)){//车道
+						//if ("1".equals(a)){//匝道
 							ds.setState("0");
+							ds.setCarId(map.get("carId")==null?"0":map.get("carId").toString());
 							ds.setPlateNo(map.get("plateNo").toString());
 							ds.setPlateColorCode(map.get("plateColorCode").toString());
 							ds.setPicUrl(map.get("picUrl").toString());
@@ -202,9 +203,9 @@ public class Program {
 							if (dataSnapMapper.insertSelective(ds)>0){//文件处理完成，删除文件
 								f.delete();
 							}
-						}else{//匝道
+						/*}else{//车道
 							dsl.setState("0");
-							ds.setCarId(map.get("carId").toString());
+							ds.setCarId(map.get("carId")==null?"0":map.get("carId").toString());
 							dsl.setPlateNo(map.get("plateNo").toString());
 							dsl.setPlateColorCode(map.get("plateColorCode").toString());
 							dsl.setPicUrl(map.get("picUrl").toString());
@@ -217,7 +218,7 @@ public class Program {
 							if (dataSnapLaneMapper.insertSelective(dsl)>0){//文件处理完成，删除文件
 								f.delete();
 							}
-						}
+						}*/
 					}catch(Exception e){
 						System.out.println(e.getMessage());
 					}

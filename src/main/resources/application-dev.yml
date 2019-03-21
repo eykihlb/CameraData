@@ -1,26 +1,26 @@
 spring:
   datasource:
-        driver-class-name: oracle.jdbc.OracleDriver
-        url: jdbc:oracle:thin:@192.168.0.200:1521:orcl
-        username: xztollstation
-        password: qwerty
-        initial-size: 1
-        max-active: 50
-        max-wait: 60000
-        min-idle: 5
-        time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        validation-query: SELECT * FROM DUAL
-        test-while-idle: true
-        test-on-borrow: false
-        test-on-return: false
-        max-open-prepared-statements: 20
-        remove-abandoned: true
-        remove-abandoned-timeout: 1800
-        log-abandoned: true
-        type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@192.168.0.200:1521:orcl
+    username: xztollstation
+    password: qwerty
+    initial-size: 1
+    max-active: 50
+    max-wait: 60000
+    min-idle: 5
+    time-between-eviction-runs-millis: 60000
+    min-evictable-idle-time-millis: 300000
+    validation-query: SELECT * FROM DUAL
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    max-open-prepared-statements: 20
+    remove-abandoned: true
+    remove-abandoned-timeout: 1800
+    log-abandoned: true
+    type: com.alibaba.druid.pool.DruidDataSource
 servercfg:
-  ftpHost: 192.168.0.163
+  ftpHost: 192.168.0.193
   ftpUserName: eykihlb
   ftpPassword: 213457023
   ftpPort: 21

@@ -11,12 +11,14 @@
     <result column="STATE" property="state" jdbcType="VARCHAR" />
     <result column="NET_SITE_NO" property="netSiteNo" jdbcType="VARCHAR" />
     <result column="CAR_ID" property="carId" jdbcType="VARCHAR" />
+    <result column="road_name" property="roadName" jdbcType="VARCHAR" />
+    <result column="road_to" property="roadTo" jdbcType="VARCHAR" />
     <result column="dvrName" property="dvrName" />
     <result column="netSiteNo" property="netSiteNo" />
     <result column="fullNetSiteNo" property="fullNetSiteNo" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, CAMERA_IP, PIC_URL, CREATE_TIME, PLATE_NO, PLATE_COLOR_CODE, STATE,NET_SITE_NO,CAR_ID
+    ID, CAMERA_IP, PIC_URL, CREATE_TIME, PLATE_NO, PLATE_COLOR_CODE, STATE,NET_SITE_NO,CAR_ID,ROAD_NAME,ROAD_TO
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -58,6 +60,12 @@
       <if test="carId != null" >
         CAR_ID,
       </if>
+      <if test="roadName != null" >
+        ROAD_NAME,
+      </if>
+      <if test="roadTo != null" >
+        ROAD_TO,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -86,6 +94,12 @@
       </if>
       <if test="carId != null" >
         #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="roadName != null" >
+        #{roadName,jdbcType=VARCHAR},
+      </if>
+      <if test="roadTo != null" >
+        #{roadTo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -116,6 +130,12 @@
       </if>
       <if test="carId != null" >
         CAR_ID = #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="roadName != null" >
+        ROAD_NAME = #{roadName,jdbcType=VARCHAR},
+      </if>
+      <if test="roadTo != null" >
+        ROAD_TO = #{roadTo,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

@@ -37,6 +37,7 @@ public class HvDeviceCallBackResult{
 			try {
 
 				FTPConfig ftpConfig = FTPUtil.getFc();
+
 				//不是有效数据就丢弃
 				if(dwResultFlag != HvDeviceDataType.RESULT_FLAG_VAIL) {
 					System.out.println("不是有效数据");
@@ -67,8 +68,8 @@ public class HvDeviceCallBackResult{
 					result.plateNo = pcPlateNo.substring(1, len);
 				}
 
-				//附加信息
-				/*int appendInfoLen = 10240;
+				/*//附加信息
+				int appendInfoLen = 10240;
 				byte[] appendInfo = new byte[appendInfoLen];
 				HvDeviceSDK._sdk1.HVAPIUTILS_ParsePlateXmlStringEx(pcAppendInfo, appendInfo, appendInfoLen);
 				try {
@@ -127,6 +128,14 @@ public class HvDeviceCallBackResult{
 					ds.setCarId(result.carID+"");
 					ds.setPlateColorCode(pUserData.plateNoColor);
 					ds.setPlateNo(pUserData.plateNo);
+					String[] a = pcAppendInfo.split("\n");
+					try{
+						ds.setRoadName(a[21].split("\"")[1]);
+						ds.setRoadTo(a[22].split("\"")[1]);
+					}catch (Exception e){
+						ds.setRoadName("未知");
+						ds.setRoadTo("未知");
+					}
 					String res = om.writeValueAsString(ds);
 					File writeName = new File(ftpConfig.getFtpfpath()+ftpConfig.getErrorFilePath()+new Date().getTime()+".txt");
 					writeName.createNewFile();

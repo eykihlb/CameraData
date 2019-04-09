@@ -118,7 +118,7 @@
   </update>
 
   <select id="selectCameraIP" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" resultMap="BaseResultMap">
-    select * from CODE_VIDEO_CAMERA where BY_RES = #{byRes} and state = #{state}
+    select * from CODE_VIDEO_CAMERA where DVR_IP = #{dvrIp} and state = #{state}
   </select>
 
   <select id="selectList" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" resultMap="BaseResultMap">
@@ -144,6 +144,6 @@
   </select>
 
   <select id="selectByIp" parameterType="com.mydao.kkjk.entity.CodeVideoCamera" resultType="java.lang.String">
-    select DVR_DESC from CODE_VIDEO_CAMERA where BY_RES = #{byRes} and DVR_IP = #{dvrIp}
+    select DVR_DESC from CODE_VIDEO_CAMERA where DVR_IP = #{dvrIp}
   </select>
 </mapper>

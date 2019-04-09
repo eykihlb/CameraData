@@ -59,56 +59,8 @@ public class Program {
 			public void run() {
 				try {
 					//frm = new frmMain();
-					CodeVideoCamera c = new CodeVideoCamera();
-					c.setByRes(ftpConfig.getNetNo());
-					c.setState("1");
-					List<CodeVideoCamera> list = codeVideoCameraMapper.selectCameraIP(c);
-					for (int i = 0;i<list.size();i++){
-						switch (i){
-							case 0:
-								hd.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 1:
-								hd.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 2:
-								hd1.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd1.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 3:
-								hd1.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd1.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 4:
-								hd2.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd2.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 5:
-								hd2.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd2.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 6:
-								hd3.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd3.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 7:
-								hd3.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd3.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 8:
-								hd4.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd4.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							case 9:
-								hd4.OpenDevice(list.get(i).getDvrIp(), 0);
-								hd4.StartResult(ftpConfig,dataSnapMapper);
-								break;
-							default:
-								break;
-						}
-					}
+					hd.OpenDevice(ftpConfig.getDvrIp(), 0);
+					hd.StartResult(ftpConfig,dataSnapMapper);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -125,14 +77,6 @@ public class Program {
 		try {
 			hd.StopResult();
 			hd.CloseDevice();
-			hd1.StopResult();
-			hd1.CloseDevice();
-			hd2.StopResult();
-			hd2.CloseDevice();
-			hd3.StopResult();
-			hd3.CloseDevice();
-			hd4.StopResult();
-			hd4.CloseDevice();
 		}catch (Exception e){
 			return  e.getMessage();
 		}
@@ -196,6 +140,8 @@ public class Program {
 							ds.setPicUrl(map.get("picUrl").toString());
 							ds.setCreateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 							ds.setCameraIp(map.get("cameraIp").toString());
+							ds.setRoadTo(map.get("roadTo").toString());
+							ds.setRoadName(map.get("roadName").toString());
 							ds.setNetSiteNo(ftpConfig.getNetNo());
 							ds.setId(UUID.randomUUID().toString().replaceAll("-", ""));
 							r.close();

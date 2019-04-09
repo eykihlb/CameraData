@@ -32,3 +32,4 @@ servercfg:
   httpPort: 8086
   httpPath: /image/
   netNo: '0207'
+  dvrIp: 192.168.0.196

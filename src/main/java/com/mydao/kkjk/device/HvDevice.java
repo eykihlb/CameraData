@@ -71,14 +71,8 @@ public class HvDevice {
 		_result.ip = _ip;
 		_result.type = _type;
 		ZoneOffset zoneOffset = ZoneOffset.ofHours(8);
-		LocalDateTime localDateTime = LocalDateTime.of(2019,2,26,0,0);
+		LocalDateTime localDateTime = LocalDateTime.now();
 		String carId = "0";
-		if (ftpConfig!=null&&dataSnapMapper!=null){
-			 carId = dataSnapMapper.selectLastData(ftpConfig.getNetNo());
-			 if (carId == null){
-			 	carId = "0";
-			 }
-		}
 		if(0 == HvDeviceSDK._sdk1.HVAPI_StartRecvResult(_handle, _result_callback, _result, 0, localDateTime.toEpochSecond(zoneOffset), 0L, Integer.parseInt(carId)+1, HvDeviceDataType.RESULT_RECV_FLAG_HISTORY))
 		{
 			System.out.println("开始接收结果！设备IP：" + _ip);

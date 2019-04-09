@@ -16,8 +16,26 @@ public class DataSnap {
     private String state;
     private String netSiteNo;
 
+    private String roadName;
+    private String roadTo;
     private String dvrName;
     private String fullNetSiteNo;
+
+    public String getRoadName() {
+        return roadName;
+    }
+
+    public void setRoadName(String roadName) {
+        this.roadName = roadName;
+    }
+
+    public String getRoadTo() {
+        return roadTo;
+    }
+
+    public void setRoadTo(String roadTo) {
+        this.roadTo = roadTo;
+    }
 
     public String getCarId() {
         return carId;
